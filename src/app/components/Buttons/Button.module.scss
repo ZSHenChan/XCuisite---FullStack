@@ -1,0 +1,65 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.btn {
+  border: none;
+  border-radius: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  padding: $spacing * 0.5 $spacing;
+  font-size: $font-md;
+  letter-spacing: 0.1rem;
+  line-height: 1.7;
+
+  a {
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  @include respond(tab-land) {
+    font-size: $font-sm;
+  }
+
+  @include respond(tab-port) {
+    font-size: $font-xs;
+  }
+}
+
+.btn-primary-outline {
+  @extend .btn;
+  border: 1px $primary solid;
+  background-color: transparent;
+  color: $primary;
+
+  &:hover,
+  &:active {
+    background-color: $secondary-light;
+  }
+}
+
+.btn-primary {
+  @extend .btn;
+  background-color: $secondary;
+  color: $primary;
+
+  &:hover,
+  &:active {
+    background-color: $secondary-light;
+  }
+}
+
+.btn-secondary {
+  @extend .btn;
+  background-color: $primary;
+  color: $secondary;
+
+  &:hover,
+  &:active {
+    background-color: $primary-light;
+  }
+}
+
+.btn-link {
+  text-decoration: none;
+  color: currentColor;
+}

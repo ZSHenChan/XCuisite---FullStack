@@ -1,0 +1,30 @@
+@use "@/styles/variables" as *;
+@use "sass:math";
+
+.cart-icon {
+  position: relative;
+  z-index: 100;
+  stroke: transparent;
+  fill: currentColor;
+  transform: translateY(-1px);
+
+  :hover {
+    cursor: pointer;
+  }
+}
+
+.icon {
+  width: $font-lg;
+  height: $font-lg;
+}
+
+.cart-qty {
+  position: absolute;
+  bottom: 1px;
+  right: -$font-xs;
+  font-size: $font-xs;
+  color: $secondary-dark;
+  font-weight: bold;
+
+  user-select: none;
+}

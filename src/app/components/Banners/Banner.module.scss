@@ -1,0 +1,12 @@
+@use "@/styles/mixins.scss" as *;
+
+.banner {
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+
+  max-height: max(25dvh, 8rem);
+  width: 100%;
+  // position: relative;
+  overflow: hidden;
+}

@@ -1,0 +1,69 @@
+@use "styles/variables" as *;
+
+:export {
+  // Base Colors
+  primary: $primary;
+  primarydark: $primary-dark;
+  primarylight: $primary-light;
+  secondary: $secondary;
+  secondarydark: $secondary-dark;
+  secondarylight: $secondary-light;
+  whiteopaque: $white-opaque;
+  tertiary: $tertiary;
+  tertiarydark: $tertiary-dark;
+  tertiarylight: $tertiary-light;
+
+  // Season Background Colours
+  pinkbackgroundlight: $pink-background--light;
+  pinkbackgroundmedium: $pink-background--medium;
+  pinkbackgroundmediumdark: $pink-background--medium-dark;
+  pinkbackgrounddark: $pink-background--dark;
+
+  // Season Font Colours
+  pinklight: $pink--light;
+  pinkmedium: $pink--medium;
+  pinkmediumdark: $pink--medium-dark;
+  pinkdark: $pink--dark;
+
+  // Fonts
+  fontdisplay: $font-display;
+
+  // Breakpoints
+  xs: $xs;
+  sm: $sm;
+  md: $md;
+  lg: $lg;
+  xl: $xl;
+  xxl: $xxl;
+
+  // Font Sizes
+  fontxs: $font-xs;
+  fontsm: $font-sm;
+  fontmd: $font-md;
+  fontlg: $font-lg;
+  fontxl: $font-xl;
+  fontxxl: $font-xxl;
+
+  // Shadows
+  shadowlight: $shadow-light;
+  shadowmedium: $shadow-medium;
+  shadowdark: $shadow-dark;
+
+  // Breakpoints
+  bpdesktop: $bp-desktop;
+  bptabland: $bp-tab-land;
+  bptabport: $bp-tab-port;
+  bpphone: $bp-phone;
+  bpphonesm: $bp-phone-sm;
+
+  // Spacing
+  spacing: $spacing;
+  spacingsm: $spacing-sm;
+  spacingmd: $spacing-md;
+  spacinglg: $spacing-lg;
+  spacingxl: $spacing-xl;
+  spacingxxl: $spacing-xxl;
+
+  // Others
+  ctabtnwidth: $cta-btn-width;
+}

@@ -1,0 +1,116 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.card-face--front--flipped {
+  transform: rotateY(-180deg);
+}
+
+.card {
+  &-wrapper {
+    width: 15rem;
+    height: 25rem;
+    position: relative;
+    perspective: 1000px;
+
+    @include respond(phone) {
+      width: 18rem;
+    }
+  }
+
+  &-face {
+    height: 100%;
+    width: 100%;
+    border-radius: 2rem;
+    overflow: hidden;
+
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transition: all 0.5s ease-in-out;
+    box-shadow: $shadow-light;
+    &--back {
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: rotateY(180deg);
+
+      .cta-links {
+        position: absolute;
+        left: $spacing-lg;
+        bottom: $spacing-lg;
+      }
+
+      &--flipped {
+        transform: rotateY(0deg);
+      }
+    }
+  }
+
+  &-image-top {
+    cursor: pointer;
+    height: 11rem;
+    object-fit: cover;
+
+    &--back {
+      opacity: 0.7;
+      transform: rotateY(180deg);
+    }
+  }
+
+  &-body {
+    padding: $spacing-lg;
+    text-align: center;
+  }
+
+  &-title {
+    font-size: $font-lg;
+    color: $primary;
+  }
+
+  &-text {
+    font-size: $font-sm;
+  }
+
+  @media only screen and (width<= $bp-phone), only screen and (hover: none) {
+    .icon-link {
+      display: none;
+    }
+    .is-flipped &-face--front {
+      transform: none;
+    }
+    .is-flipped &-face--back {
+      transform: rotateY(180deg);
+    }
+  }
+}
+
+.cta-links {
+  font-size: $font-xs;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @include respond(phone) {
+    justify-content: center;
+  }
+
+  .icon-link {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    height: 100%;
+    cursor: pointer;
+    color: $primary;
+    text-decoration: underline;
+
+    @include respond(phone) {
+      display: none;
+    }
+  }
+}
+
+.card-btn {
+  padding: $spacing * 0.3 $spacing $spacing * 0.3 $spacing;
+  font-size: $font-xs;
+  @include respond(phone) {
+    padding: $spacing-md $spacing-xxl;
+  }
+}

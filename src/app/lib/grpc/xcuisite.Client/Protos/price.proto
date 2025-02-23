@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "grpcServices";
+
+package price;
+
+// The greeting service definition.
+service Pricing {
+  // Sends a greeting
+  rpc CalculatePricing (PriceRequest) returns (PriceResponse);
+}
+
+// The request message containing the user's name.
+message PriceRequest {
+  float unitPrice = 1;
+  int32 quantity = 2;
+}
+
+// The response message containing the greetings.f
+message PriceResponse {
+  float totalPrice = 1;
+}

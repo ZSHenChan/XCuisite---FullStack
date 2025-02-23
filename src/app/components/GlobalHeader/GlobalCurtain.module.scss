@@ -1,0 +1,108 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+
+.global-curtain {
+  @include fixedCornerTopLeft;
+  height: 0;
+  width: 100%;
+  z-index: 4;
+  background-color: $primary;
+
+  overflow: hidden;
+  transition: 0.4s ease-in-out;
+
+  &-content {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    color: $secondary;
+    position: relative;
+    padding: 7dvh $spacing-lg $spacing-xl;
+    height: 100%;
+
+    .cart-header {
+      font-weight: bold;
+      letter-spacing: 0.12rem;
+      @include responsive-font($font-md);
+    }
+
+    .in-cart-item-wrapper {
+      margin-bottom: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: $spacing $spacing-md 0;
+      @include responsive-font($font-sm);
+      @include respond(phone) {
+        padding: $spacing $spacing 0;
+      }
+    }
+  }
+
+  &.curtain-flyout {
+    height: 60dvh;
+  }
+
+  &-bottom {
+    content: "";
+    width: 100%;
+    height: 0%;
+    z-index: 3;
+    transition: 0.3s ease-out;
+    background: rgba(255, 255, 255, 0.5);
+
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    @include fixedCornerTopLeft;
+    &-flyout {
+      transition: 0.8s ease-in-out;
+      height: 100dvh;
+    }
+  }
+}
+
+.curtain-btn {
+  // @include responsive-font($font-md);
+}
+
+.btn-checkout {
+  justify-self: end;
+  @include respond(phone-sm) {
+    justify-self: auto;
+  }
+}
+
+// GlobalCurtainCart
+.in-cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.in-cart-item {
+  font-size: $font-md;
+  list-style: none;
+  margin-bottom: 1.2rem;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+  gap: $spacing * 2;
+
+  .item {
+    &-img {
+      margin-right: 20px;
+    }
+    &-name {
+      &-product {
+        margin-bottom: $spacing * 0.3;
+      }
+      &-quantity {
+        font-size: $font-sm;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.more-item {
+  font-size: $font-md;
+  margin-bottom: 0;
+}

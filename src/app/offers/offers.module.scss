@@ -1,0 +1,14 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.product-grid {
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(280px, min-content));
+  grid-row-gap: 30px;
+  // grid-column-gap: $spacing-lg;
+  @include gridCenter;
+  @include responsive-paddingX($spacing);
+  @include respond(tab-port) {
+    grid-template-columns: 1fr;
+  }
+}

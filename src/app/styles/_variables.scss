@@ -1,0 +1,71 @@
+$primary: #f46200;
+$primary-dark: #ef6a12e7;
+$primary-light: #ff7f33;
+$primary-transparent: rgba(244, 98, 0, 0.95);
+
+$secondary: #eef4ed;
+$secondary-dark: #d0d8d3;
+$secondary-light: #f9eef2;
+$white-opaque: #ffffff8c;
+$tertiary: #7e5433;
+$tertiary-dark: #5a3b24;
+$tertiary-light: #a67a4d;
+
+$error: #ff0000;
+
+$pink-background--light: #ffdeeb;
+$pink-background--medium: #fcc2d7;
+$pink-background--medium-dark: #ff9cc0;
+$pink-background--dark: #d6336c;
+
+$pink--light: #fff0f6;
+$pink--medium: #f976a6;
+$pink--medium-dark: #d6336c;
+$pink--dark: #a61e4d;
+
+$font-display: "PT Sans Caption", sans-serif;
+
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
+
+// FONT SIZE
+$font-xxs: 0.577rem;
+$font-xs: 0.833rem;
+$font-sm: 1rem;
+$font-md: 1.2rem;
+$font-lg: 1.563rem;
+$font-xl: 2.488rem;
+$font-xxl: 2.986rem;
+
+$shadow-light: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2);
+$shadow-medium: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.4);
+$shadow-dark: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.5);
+
+// BREAKPOINTS
+// 1800px
+$bp-desktop: 112.5em;
+// 1200px
+$bp-tab-land: 75em;
+// 768px
+$bp-tab-port: 48em;
+// 576px
+$bp-phone: 36em;
+// 450px
+$bp-phone-sm: 28.125em;
+
+// cta-btn
+$cta-btn-width: 4rem;
+
+$spacing: 1rem;
+
+$spacing-sm: $spacing * 0.5;
+$spacing-md: 1rem; // Medium spacing
+$spacing-lg: $spacing * 1.5;
+$spacing-xl: $spacing * 2;
+$spacing-xxl: $spacing * 3;
+
+$secure-checkout-sticky-margin-top: 10dvh;

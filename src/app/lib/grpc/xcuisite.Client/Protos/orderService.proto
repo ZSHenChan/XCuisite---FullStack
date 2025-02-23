@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+option csharp_namespace = "grpcServices";
+
+package orderService;
+
+service OrderService {
+  rpc PlaceOrder (OrderRequest) returns (OrderResponse);
+}
+
+message OrderRequest {
+  string user_id = 1;
+  bool guest = 2;
+
+  ShippingInfo shipping_info = 3;
+  BillingInfo billing_info = 4;
+
+  repeated OrderItem items = 5;
+  repeated Discount discounts = 6;
+
+  double tax = 7;
+  double shipping_cost = 8;
+  double total_amount = 9;
+
+  string order_notes = 10;
+  string created_at = 11;
+}
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+  string zip = 4;
+  string country = 5;
+}
+
+message ShippingInfo {
+  string full_name = 1;
+  string phone = 2;
+  string shipping_method = 3;
+  Address address = 4;
+}
+
+message BillingInfo {
+  string full_name = 1;
+  PaymentType payment_method = 2;
+  string transaction_id = 3;
+  Address address = 4;
+}
+
+message OrderItem {
+  string product_id = 1;
+  string name = 2;
+  int32 quantity = 3;
+  double price = 4;
+  double subtotal = 5;
+}
+
+message Discount {
+  string code = 1;
+  double amount = 2;
+}
+
+message OrderResponse {
+  string order_id = 1;
+  string status = 2;
+  string estimated_delivery = 3;
+  string message = 4;
+}
+
+// Define the PaymentType enum
+enum PaymentType {
+  CreditCard = 0;
+  Paypal = 1;
+  BankTransfer = 2;
+  Stripe = 3;
+}

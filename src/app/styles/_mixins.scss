@@ -1,0 +1,189 @@
+@use "./variables.scss" as *;
+// MEDIA QUERIES
+// * Apply the content inside the mixin for smaller or equal to specified screen size.
+// * Size should decrease
+@mixin respond($breakpoint) {
+  // use em for breakpoints
+  @if $breakpoint == phone-sm {
+    // <= 450px
+    @media only screen and (max-width: $bp-phone-sm) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == phone {
+    // <= 576px
+    @media only screen and (max-width: $bp-phone) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-port {
+    // <= 768px
+    @media only screen and (max-width: $bp-tab-port) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-port--touch {
+    // <= 768px or touch screen
+    @media only screen and (max-width: $bp-tab-port),
+      only screen and (hover: none) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-land {
+    // <= 1200px
+    @media only screen and (max-width: $bp-tab-land) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-land--touch {
+    // <= 1200px or touch screen
+    @media only screen and (max-width: $bp-tab-land),
+      only screen and (hover: none) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == desktop {
+    // >= 1800px
+    @media only screen and (min-width: $bp-desktop) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == LTtab-port {
+    // >= 2560px
+    @media only screen and (min-width: $bp-tab-port) {
+      @content;
+    }
+  }
+}
+
+@mixin fullScreen {
+  height: 100dvh;
+  width: 100dvw;
+}
+
+@mixin flexDirection($direction, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin gridCenter {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+
+@mixin absCornerTopLeft {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@mixin absCornerTopRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@mixin fixedCornerTopLeft {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@mixin fixedCornerTopRight {
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+@mixin fixedCornerBotRight {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin responsive-marginY($size) {
+  margin-top: $size * 2;
+  margin-bottom: $size * 2;
+
+  @include respond(tab-land) {
+    margin-top: $size * 1.5;
+    margin-bottom: $size * 1.5;
+  }
+
+  @include respond(phone) {
+    margin-top: $size;
+    margin-bottom: $size;
+  }
+}
+
+@mixin responsive-marginX($size) {
+  margin-left: $size * 2;
+  margin-right: $size * 2;
+
+  @include respond(tab-land) {
+    margin-left: $size * 1.5;
+    margin-right: $size * 1.5;
+  }
+
+  @include respond(phone) {
+    margin-left: $size;
+    margin-right: $size;
+  }
+}
+
+@mixin responsive-paddingX($size) {
+  padding-left: $size * 2;
+  padding-right: $size * 2;
+
+  @include respond(tab-land) {
+    padding-left: $size * 1.5;
+    padding-right: $size * 1.5;
+  }
+
+  @include respond(tab-port) {
+    padding-left: $size;
+    padding-right: $size;
+  }
+
+  @include respond(phone) {
+    padding-left: $size * 0.3;
+    padding-right: $size * 0.3;
+  }
+
+  @include respond(phone-sm) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@mixin responsive-font($size) {
+  font-size: $size * 1.5;
+
+  @include respond(tab-land) {
+    font-size: $size * 1.2;
+  }
+
+  @include respond(phone) {
+    font-size: $size;
+  }
+}
+
+@include respond(tab-port) {
+  $spacing: 0.7rem;
+}

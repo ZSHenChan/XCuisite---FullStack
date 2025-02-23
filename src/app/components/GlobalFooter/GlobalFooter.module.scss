@@ -1,0 +1,113 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+@use "sass:math";
+
+.global-footer {
+  background-color: $primary;
+  padding: $spacing-xxl $spacing-xxl * 2 $spacing-xxl * 2;
+  font-size: $font-xs;
+  color: $secondary;
+
+  @include respond(tab-port) {
+    padding: $spacing-xxl $spacing-md * 2 $spacing-md * 2;
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    @include respond(tab-port) {
+      width: 100%;
+      margin-bottom: $spacing-xxl;
+      @include flexDirection(column);
+    }
+  }
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing * 0.5;
+  }
+
+  .section-column {
+    display: flex;
+    flex-direction: column;
+
+    &-button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: $spacing 0.3rem;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      color: $secondary;
+      font-size: $font-md;
+      display: none;
+
+      @include respond(tab-port) {
+        display: flex;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: relative;
+      height: 1px;
+      width: 95%;
+
+      background-color: $white-opaque;
+      display: none;
+      @include respond(tab-port) {
+        display: block;
+      }
+    }
+
+    &-header {
+      font-size: $font-lg;
+      @include respond(tab-port) {
+        display: none;
+      }
+    }
+    &-links {
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      overflow: hidden;
+
+      @include respond(LTtab-port) {
+        height: auto !important;
+      }
+    }
+    &-link {
+      color: $white-opaque;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .mini-shop {
+    border-bottom: 1px $secondary solid;
+    padding: 1rem 0;
+  }
+
+  .copyright {
+    padding: 1rem 0;
+  }
+
+  .icon {
+    width: 13px;
+    height: 23px;
+    stroke: $white-opaque;
+    fill: $white-opaque;
+
+    transition: transform 0.1s ease-in;
+
+    &:hover {
+      fill: $secondary;
+      stroke: $secondary;
+    }
+  }
+}

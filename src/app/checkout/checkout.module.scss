@@ -1,0 +1,46 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.section-wrapper {
+  place-self: center;
+  max-width: 90rem;
+  display: grid;
+  grid-template-columns: 3fr 5fr;
+  gap: min(5rem);
+  position: relative;
+
+  .products {
+    padding: 0;
+    margin-bottom: $spacing-xxl;
+
+    > ul {
+      padding: $spacing-lg $spacing-lg $spacing-lg $spacing-lg;
+    }
+  }
+  .summary {
+    padding: 0;
+  }
+
+  @include respond(tab-land) {
+    display: block;
+  }
+}
+
+.section-left {
+  position: sticky;
+  top: $secure-checkout-sticky-margin-top;
+  left: 0;
+  align-self: start;
+
+  @include respond(tab-land) {
+    position: inherit;
+    top: auto;
+    margin-bottom: $spacing-xxl;
+  }
+}
+
+.section-right {
+  > * {
+    margin-bottom: 3rem;
+  }
+}

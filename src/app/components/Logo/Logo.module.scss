@@ -1,0 +1,21 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.menuback {
+  z-index: 10;
+
+  &__logo {
+    display: block;
+    width: $font-xl;
+    height: $font-xl;
+  }
+}
+
+.absolute {
+  display: none;
+  position: absolute;
+  left: min(2dvw, 2rem);
+  @include respond(tab-port--touch) {
+    display: block;
+  }
+}

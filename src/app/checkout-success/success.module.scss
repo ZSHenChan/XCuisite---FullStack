@@ -1,0 +1,26 @@
+@use "@/styles/variables" as *;
+
+.success-card {
+  text-align: center;
+  max-width: 60rem;
+  justify-self: center;
+  padding: $spacing-xxl $spacing-xxl * 4 $spacing-xxl;
+  border: 2px solid $primary;
+  border-radius: 1rem;
+
+  &-heading {
+    margin-bottom: $spacing-md;
+  }
+
+  &-text {
+    color: $tertiary;
+    margin-bottom: $spacing-xxl;
+  }
+
+  &-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xxl;
+  }
+}

@@ -1,0 +1,61 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.modal {
+  @include fixedCornerTopLeft;
+  @include fullScreen;
+  @include gridCenter;
+  z-index: 5;
+  background-color: rgba(36, 32, 32, 0.8);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  &-hidden {
+    display: none !important;
+  }
+
+  .modal-overlay {
+    @include absCornerTopLeft;
+    @include fullScreen;
+  }
+
+  .card {
+    border: none;
+    border-radius: 2rem;
+    overflow: hidden;
+
+    &-title {
+      width: 100%;
+    }
+    &-wrapper {
+      max-width: 18rem;
+    }
+    &-body {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+    }
+  }
+
+  &-item-name {
+    font-weight: bold;
+    font-size: $font-lg;
+    margin-bottom: 1rem;
+    max-width: 10ch;
+    align-self: center;
+  }
+  input {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 1rem;
+    align-self: center;
+    font-family: inherit;
+    font-weight: bold;
+  }
+  &-btn {
+    display: block;
+    padding: 0.8rem 3rem;
+    align-self: center;
+    font-size: $font-lg;
+  }
+}

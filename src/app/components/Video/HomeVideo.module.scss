@@ -1,0 +1,23 @@
+@use "@/styles/variables.scss" as *;
+
+.hero {
+  height: 95dvh;
+  width: 100dvw;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  display: grid;
+  background-color: $pink-background--light;
+}
+
+.video-container {
+  height: 100%;
+  width: 100%;
+  video,
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

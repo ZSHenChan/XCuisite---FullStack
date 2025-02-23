@@ -1,0 +1,64 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.home {
+  position: relative;
+}
+
+.hero-caption {
+  font-size: 12rem;
+  width: 100%;
+  text-align: center;
+  width: 10ch;
+  -webkit-text-fill-color: transparent;
+
+  font-weight: bold;
+  color: transparent;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 1) 10%,
+    rgba(232, 44, 138, 1) 81%
+  );
+  background: -webkit-linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 1) 10%,
+    rgba(232, 44, 138, 1) 81%
+  );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  @include respond(tab-land) {
+    font-size: 8rem;
+  }
+
+  @include respond(tab-port) {
+    font-size: 6rem;
+  }
+
+  @include respond(phone) {
+    font-size: 4rem;
+  }
+
+  &-container {
+    height: 100dvh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    @include flex-center;
+  }
+}
+
+.post-intro {
+  position: relative;
+  margin-top: 100dvh;
+}
+
+.hero-cta {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+}

@@ -1,0 +1,23 @@
+@use "./variables" as *;
+@use "./mixins" as *;
+@use "./utilities" as *;
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  min-height: 100dvh;
+  width: 100dvw;
+}
+
+body {
+  font-family: $font-display;
+  font-size: $font-md;
+  // color: $primary;
+  // background-color: $secondary-dark;
+}

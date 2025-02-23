@@ -1,0 +1,44 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.heading {
+  font-family: $font-display;
+  color: $primary;
+  font-weight: 400;
+  padding: $spacing-xxl;
+  font-size: $font-xl;
+}
+
+.btn-login {
+  text-align: center;
+}
+
+.section-login {
+  @include gridCenter;
+  align-items: start;
+  padding: $spacing-md $spacing-md $spacing-xxl * 2;
+  display: grid;
+  grid-template-columns: 5fr 4fr;
+  width: 100%;
+  min-height: 40dvh;
+  position: relative;
+  text-align: center;
+  color: black;
+
+  > div {
+    padding: $spacing-xxl;
+  }
+
+  &-right {
+    border-left: $primary 2px solid;
+    border-radius: 0.5rem;
+    height: 100%;
+    width: 100%;
+  }
+
+  p {
+    color: $tertiary;
+    font-size: $font-md;
+    margin-bottom: $spacing-xl;
+  }
+}

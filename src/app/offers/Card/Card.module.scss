@@ -1,0 +1,132 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.card {
+  position: relative;
+  height: 250px;
+  width: 250px;
+  flex: 0 0 40%;
+  @include respond(tab-port) {
+    width: 100%;
+  }
+
+  &-content {
+    pointer-events: auto;
+    position: relative;
+    border-radius: 20px;
+    background: $secondary-light;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+
+    &-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: block;
+      // pointer-events: none;
+    }
+  }
+}
+
+.card-body {
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  margin-top: min(88dvw, 50dvh);
+  padding: $spacing-xl;
+  width: 100%;
+
+  .card {
+    &-title {
+      color: $primary;
+      font-size: min(calc(3dvw + 1rem), $font-xxl);
+      font-weight: 700;
+    }
+
+    &-text {
+      color: $tertiary;
+      font-size: min(calc(2dvw + 0.5rem), $font-lg);
+    }
+
+    &-price {
+      font-size: $font-lg;
+      font-size: min(calc(1dvw + 1rem), $font-xl);
+    }
+
+    &-right {
+      text-align: center;
+      justify-self: center;
+      align-content: start;
+    }
+
+    &-input {
+      width: 100%;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      padding: 1rem;
+      align-self: center;
+      font-family: inherit;
+      font-weight: bold;
+    }
+
+    &-btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem 4rem;
+      align-self: center;
+      font-size: $font-md;
+
+      @include respond(tab-port) {
+        padding: 0.2rem 3rem;
+        font-size: $font-sm;
+      }
+    }
+  }
+}
+.card-image {
+  max-height: min(600px, 50dvh);
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  &-container {
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    height: auto;
+    width: min(95dvw, 100%);
+    transform: translateZ(0);
+  }
+}
+
+.open {
+  place-self: center;
+  width: min(90dvw, 55rem);
+  // height: 40rem;
+  height: min(90dvh, 50rem);
+  // height: min(90dvh, 37rem);
+  top: min(5rem, 10dvh);
+  left: min(10dvw, 10rem);
+  right: min(10dvw, 10rem);
+  position: fixed;
+  z-index: 3;
+  overflow: hidden;
+  margin: 40px 0;
+
+  @include respond(tab-port) {
+    height: max(90dvh, 35rem);
+  }
+}
+
+.overlay {
+  @include fixedCornerTopLeft;
+  background-color: rgba(36, 32, 32, 0.8);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 100dvh;
+  width: 100dvw;
+  z-index: 1;
+}

@@ -1,0 +1,46 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+@use "sass:math";
+
+%headings {
+  font-family: $font-display;
+  color: $primary;
+}
+
+.h-1 {
+  @extend %headings;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  text-align: center;
+
+  margin-bottom: $spacing-xxl;
+  margin-top: $spacing-lg;
+  @include responsive-font(3rem);
+}
+
+.h-2 {
+  @extend %headings;
+  font-size: $font-xl;
+  letter-spacing: -0.05rem;
+}
+
+.h-3 {
+  @extend %headings;
+  font-size: $font-xl;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+}
+
+.h-4 {
+  @extend %headings;
+}
+
+.h-sub {
+  @extend %headings;
+  font-size: $font-lg;
+  margin-bottom: $spacing * 5;
+}
+
+.h-info {
+  padding: $spacing;
+}

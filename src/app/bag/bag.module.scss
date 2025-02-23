@@ -1,0 +1,152 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+%default-section-padding {
+  padding: 0 20dvw $spacing-xxl;
+  width: 100%;
+
+  @include respond(tab-port) {
+    padding-left: 5dvw;
+    padding-right: 5dvw;
+  }
+}
+
+.checkout-main {
+  text-align: center;
+  justify-items: center;
+
+  .btn-checkout-payment {
+    font-size: $font-md;
+  }
+}
+
+.section-total {
+  padding-top: $spacing-xxl;
+  padding-bottom: 2rem;
+
+  &__heading {
+    color: $primary;
+    font-weight: 700;
+    font-size: $font-xxl;
+    letter-spacing: 0.1rem;
+
+    margin-bottom: $spacing;
+  }
+
+  &__shipping {
+    font-size: $font-sm;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.we-accept {
+  width: 70%;
+  padding-bottom: 2rem;
+  border-bottom: $primary 2px solid;
+  border-radius: 0.5rem;
+
+  &__heading {
+    font-size: $font-md;
+  }
+  &__logos {
+    display: block;
+  }
+  &__img {
+    max-height: 100%;
+    max-width: 100%;
+
+    &__container {
+      height: 32px;
+      display: inline-block;
+      border-radius: 0.5rem;
+      overflow: hidden;
+
+      &:not(:last-child) {
+        margin-right: 1.5rem;
+      }
+    }
+  }
+}
+
+.section-products {
+  @extend %default-section-padding;
+  padding-top: 5dvw;
+
+  .items {
+    @include flexDirection(column);
+    gap: $spacing-lg;
+    list-style: none;
+    padding: $spacing-xxl min($spacing-xxl * 1.5, 5dvw);
+    border: 2px $primary solid;
+    border-radius: 2rem;
+
+    @include respond(tab-port) {
+      padding: $spacing-lg $spacing-md;
+    }
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: max-content max-content 1fr;
+    column-gap: $spacing-lg;
+    align-items: center;
+    &-name {
+      text-align: start;
+      font-size: min(calc(2dvw + 0.5rem), $font-md);
+      &-product {
+        margin-bottom: $spacing * 0.3;
+      }
+      &-quantity {
+        font-size: $font-sm;
+        margin-bottom: 0;
+      }
+    }
+    &-price {
+      justify-self: flex-end;
+      font-weight: bold;
+      font-size: min(calc(2dvw + 0.5rem), $font-lg);
+      color: $primary;
+    }
+  }
+}
+
+.section-summary {
+  @extend %default-section-padding;
+  padding-top: 1rem;
+  padding-bottom: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  font-size: min(calc(3dvw + 0.5rem), $font-md);
+
+  .summary {
+    justify-self: end;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    justify-items: end;
+    align-items: center;
+    row-gap: 1rem;
+    column-gap: 5rem;
+
+    margin-bottom: $spacing-xl;
+
+    &__heading {
+      justify-self: start;
+      margin-bottom: 0;
+    }
+  }
+
+  .total-checkout__grand {
+    font-size: min(calc(3dvw + 0.8rem), $font-lg);
+    font-weight: bold;
+  }
+  .grand-total {
+    color: $primary;
+    margin-bottom: 0;
+    font-weight: bold;
+    &__amount {
+      font-size: min(calc(3dvw + 0.8rem), $font-lg);
+    }
+  }
+}

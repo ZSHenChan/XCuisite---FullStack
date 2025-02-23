@@ -1,0 +1,22 @@
+@use "@/styles/variables.scss" as *;
+
+%feedback-h {
+  font-size: $font-md;
+}
+
+.h-info {
+  @extend %feedback-h;
+  padding: $spacing-xxl;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  text-align: center;
+}
+
+.h-error {
+  @extend %feedback-h;
+  padding: $spacing-xxl;
+  color: red;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  text-align: center;
+}

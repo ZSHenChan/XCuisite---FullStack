@@ -1,0 +1,25 @@
+@use "./variables.scss" as *;
+
+.text-center {
+  text-align: center;
+}
+
+.mb1 {
+  margin-bottom: $spacing-sm;
+}
+
+.mb2 {
+  margin-bottom: $spacing-md;
+}
+
+.mb3 {
+  margin-bottom: $spacing-lg;
+}
+
+.mb4 {
+  margin-bottom: $spacing-xl;
+}
+
+.mb5 {
+  margin-bottom: $spacing-xxl;
+}

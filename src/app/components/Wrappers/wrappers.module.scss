@@ -1,0 +1,15 @@
+@use "@/styles/mixins" as *;
+
+.wrapper {
+  &--default {
+    padding: 3rem 3rem 10rem;
+
+    @include respond(tab-port) {
+      padding: 3rem 0.5rem 10rem;
+    }
+  }
+}
+
+.wrapper-form {
+  padding: 0rem;
+}

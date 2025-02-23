@@ -1,0 +1,136 @@
+@use "@/styles/variables" as *;
+@use "@/styles/mixins" as *;
+@use "sass:math";
+
+.global-header {
+  // width: 100dvw;
+  z-index: 1020;
+  position: sticky;
+  top: 0;
+
+  .navbar {
+    // padding: 0 2rem;
+    padding: 0 min(4dvw, 3rem) 0 min(2dvw, 1.5rem);
+    background-color: $primary-transparent;
+
+    @include respond(tab-port--touch) {
+      justify-content: end;
+    }
+
+    &-nav {
+      align-items: center;
+      flex-direction: row;
+
+      &--right {
+        @include flexDirection(row, $spacing);
+        align-items: center;
+        @include respond(tab-port--touch) {
+          gap: $spacing-lg;
+        }
+      }
+      &--left {
+        font-size: $font-lg;
+        gap: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 0.1rem;
+
+        @include respond(tab-land) {
+          font-size: $font-md;
+        }
+
+        @include respond(tab-port--touch) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.navbar-nav-tab {
+  display: none;
+  @include absCornerTopLeft;
+  height: 100dvh;
+  width: 100dvw;
+  background-color: $primary;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  font-size: $font-xl;
+  font-weight: bold;
+  letter-spacing: 0.2rem;
+  justify-content: flex-start;
+  overflow: hidden;
+
+  > li:first-child {
+    margin-top: 10dvh;
+  }
+
+  @include respond(tab-port--touch) {
+    display: flex;
+  }
+}
+
+// Navbar toggle button
+.navbar-nav-btn {
+  position: relative;
+
+  &,
+  &::after,
+  &::before {
+    content: "";
+    width: 1.5rem;
+    height: 2px;
+    background-color: $white-opaque;
+    transition: all 0.2s;
+
+    border-radius: 2px;
+  }
+
+  &::after,
+  &::before {
+    position: absolute;
+    left: 0;
+  }
+
+  &::after {
+    top: 8px;
+  }
+  &::before {
+    top: -8px;
+  }
+
+  &--active {
+    background-color: transparent;
+
+    &::before {
+      rotate: (135deg);
+      top: 0;
+    }
+    &::after {
+      rotate: (-135deg);
+      top: 0;
+    }
+  }
+
+  &-container {
+    display: none;
+    place-items: center;
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    z-index: 100;
+
+    cursor: pointer;
+
+    @include respond(tab-port--touch) {
+      display: grid;
+    }
+
+    &-container {
+      display: block;
+      height: 100%;
+    }
+  }
+}

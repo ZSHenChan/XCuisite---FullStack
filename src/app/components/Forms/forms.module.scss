@@ -1,0 +1,227 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.form {
+  padding: 2rem max(calc(2dvw + 1rem), 1rem);
+  background-color: rgba($primary, 0.1);
+  align-items: center;
+  border-radius: 2rem;
+  border: 2px solid rgba($primary, 0.5);
+  scroll-margin-top: $secure-checkout-sticky-margin-top;
+  transition: all 0.3s ease-out;
+  @include flexDirection(column);
+
+  &-heading {
+    color: $primary;
+    font-size: $font-lg;
+    margin-bottom: $spacing-lg;
+  }
+
+  &Error {
+    color: $error;
+    font-size: $font-sm;
+    width: 5rem;
+    margin-left: $spacing;
+  }
+
+  .formGroup {
+    margin-bottom: $spacing-md;
+    width: 100%;
+
+    label {
+      padding-left: 2rem;
+      color: $tertiary;
+      font-size: $font-sm;
+      margin-bottom: 0.3rem;
+    }
+
+    input,
+    textarea {
+      font-size: $font-xs;
+      width: 100%;
+      border: solid 2px rgba($primary, 0.5);
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+
+    input {
+      padding: 0.5rem 2rem;
+      border-radius: 10rem;
+    }
+
+    textarea {
+      border-radius: 1rem;
+      padding: 0.5rem;
+      resize: none;
+    }
+  }
+
+  .mb {
+    margin-bottom: $spacing-xxl;
+  }
+
+  // * Collect Options
+  .radioGroup {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    @include respond(phone-sm) {
+      display: block;
+    }
+
+    .formGroup {
+      margin-bottom: 0;
+      &--radio {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        input {
+          display: none;
+
+          &:checked + .radio-label {
+            background-color: $primary;
+            color: white;
+            border-color: $primary;
+          }
+        }
+
+        .radio-label {
+          display: flex;
+          justify-content: center;
+          flex: 1;
+          padding: 0.5rem 1rem;
+          border: 2px solid $primary-light;
+          border-radius: 10rem;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+
+          &:hover {
+            background-color: $primary-light;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .formGroup--location {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+    margin-bottom: 0;
+
+    &--expand {
+      max-height: 10rem;
+    }
+
+    select {
+      font-size: $font-sm;
+      width: 100%;
+      padding: 1rem 2rem; // Increased padding for larger size
+      border-radius: 10rem;
+      border: solid 2px rgba($primary, 0.5);
+      appearance: none;
+
+      background: url('data:image/svg+xml;utf8,<svg fill="%23$primary-dark" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>')
+        no-repeat right 1rem center;
+      background-size: 1rem;
+
+      //   &.fadeIn {
+      //     margin-bottom: 1rem;
+      //   }
+
+      &:focus {
+        outline: none;
+        border-color: $primary;
+      }
+    }
+  }
+
+  .submitButton {
+    font-size: $font-sm;
+    width: 80%;
+    border-radius: 10rem;
+  }
+
+  // * Star Rating
+  .formGroup--notes {
+    text-align: center;
+    label {
+      padding: 0;
+    }
+  }
+
+  .formRating {
+    label {
+      padding: 0;
+    }
+
+    .starRating {
+      justify-content: center;
+      display: flex;
+      gap: 0.5rem;
+
+      .filledStar,
+      .emptyStar {
+        font-size: 2rem;
+        cursor: pointer;
+      }
+
+      .filledStar {
+        color: $primary;
+      }
+
+      .emptyStar {
+        color: lightgray;
+      }
+    }
+  }
+}
+
+.fadeIn-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+
+  &--active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeOut-animation {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+
+  &--active {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+.form {
+  &-bagOption {
+    .radioGroup {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .formGroup--radio {
+        .radio-label {
+          padding: min($spacing-xxl, calc(3dvw + 1rem));
+          border-radius: 0.5rem;
+        }
+      }
+    }
+  }
+}
