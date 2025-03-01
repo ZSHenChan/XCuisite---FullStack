@@ -10,7 +10,7 @@ const LogoutButton = () => {
       onClick={() =>
         logout({
           logoutParams: {
-            returnTo: `${process.env.NEXT_PUBLIC_AUTH0_BASE_URL}/offers`,
+            returnTo: `${window.location.origin}`,
           },
         })
       }
