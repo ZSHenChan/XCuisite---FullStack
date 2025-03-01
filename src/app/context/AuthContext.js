@@ -5,6 +5,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import { env } from "@/data/env/client";
 // import { API_AUDIENCE, CLIENT_ID, DOMAIN } from "@/auth/constants";
 
 import { SpinnerFull } from "@/components/Feedback/Spinner";
@@ -21,7 +22,7 @@ export function AuthProvider({ children }) {
       return redirect_uri;
     } else {
       // console.log("window not defined");
-      return process.env.NEXT_PUBLIC_AUTH0_BASE_URL; // Default value for server-side rendering
+      return env.NEXT_PUBLIC_AUTH0_BASE_URL; // Default value for server-side rendering
     }
   }
 
@@ -31,13 +32,13 @@ export function AuthProvider({ children }) {
 
   return (
     <Auth0Provider
-      domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN}
-      clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID}
+      domain={env.NEXT_PUBLIC_AUTH0_DOMAIN}
+      clientId={env.NEXT_PUBLIC_AUTH0_CLIENT_ID}
       onRedirectCallback={onRedirectCallback}
       authorizationParams={{
         redirect_uri: getRedirectUri(),
-        audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
-        scope: process.env.NEXT_PUBLIC_AUTH0_SCOPE,
+        audience: env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+        scope: env.NEXT_PUBLIC_AUTH0_SCOPE,
       }}
     >
       <AuthState>{children}</AuthState>
