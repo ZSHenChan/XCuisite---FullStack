@@ -7,7 +7,6 @@ import SectionWrapper from "@/components/Wrappers/SectionWrapper";
 export default function CheckoutSuccess() {
   return (
     <div>
-      <Banner imgSrc="offers-banner" alt="Offers Banner" />
       <SectionWrapper>
         <HeadingPage>Success!</HeadingPage>
         <SuccessCard />

@@ -4,7 +4,7 @@ import styles from "./checkout.module.scss";
 
 import { ApiPlaceOrder } from "@/api/handlePlaceOrder";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useAuth0, useAuthToken } from "@auth0/auth0-react";
 import { CartContext } from "@/context/CartContext";
@@ -12,6 +12,9 @@ import { CartContext } from "@/context/CartContext";
 import { AnimatePresence } from "motion/react";
 import { LayoutGroup } from "framer-motion";
 import toast from "react-hot-toast";
+
+import { EmbeddedCheckoutButton } from "./embeddedCheckoutButton";
+import { PaymentButton } from "./paymentButton";
 
 import { SpinnerFull } from "@/components/Feedback/Spinner";
 import SubheadingPage from "@/components/Headings/SubheadingPage";
@@ -24,8 +27,8 @@ import {
   FormSubmit,
 } from "@/components/Forms/CheckoutForm";
 import SectionWrapper from "@/components/Wrappers/SectionWrapper";
-import SectionProducts from "@/bag/SectionProducts";
-import SectionSummary from "@/bag/SectionSummary";
+import SectionProducts from "@/(pages)/bag/SectionProducts";
+import SectionSummary from "@/(pages)/bag/SectionSummary";
 import FormWrapper from "@/components/Wrappers/FormWrapper";
 
 // const FormStringInput = ({
@@ -76,6 +79,11 @@ export default function Checkout() {
     return <SpinnerFull />;
   }
 
+  //* Payment
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("canceled");
+
   const [showAddressForm, setShowAddressForm] = useState(true);
   const [animateAddressForm, setAnimateAddressForm] = useState(true);
 
@@ -97,20 +105,20 @@ export default function Checkout() {
     token: null,
   });
 
-  // Redirect user if not authenticated or no items in cart
-  useEffect(() => {
-    // console.log("Guest Checkout State:", guestCheckoutState);
-    // console.log("Is Authenticated:", isAuthenticated);
+  // // Redirect user if not authenticated or no items in cart
+  // useEffect(() => {
+  //   // console.log("Guest Checkout State:", guestCheckoutState);
+  //   // console.log("Is Authenticated:", isAuthenticated);
 
-    if (!guestCheckoutState && !isAuthenticated) {
-      router.push("/checkout/login");
-      return;
-    }
-    if (getCartItems().length === 0) {
-      toast("Oops! Your cart is empty. Redirecting to offers page...");
-      router.push("/offers");
-    }
-  }, [guestCheckoutState, isAuthenticated, router, getCartItems]);
+  //   if (!guestCheckoutState && !isAuthenticated) {
+  //     router.push("/checkout/login");
+  //     return;
+  //   }
+  //   if (getCartItems().length === 0) {
+  //     toast("Oops! Your cart is empty. Redirecting to offers page...");
+  //     router.push("/offers");
+  //   }
+  // }, [guestCheckoutState, isAuthenticated, router, getCartItems]);
 
   const handleSelectPickup = () => {
     setAnimateAddressForm(false);
@@ -182,15 +190,28 @@ export default function Checkout() {
   };
 
   const handleFinishSubmit = async () => {
-    const validateToast = toast.loading("Validating order details...");
-    const validEntries = await validateAllForms();
-    if (!validEntries) {
-      toast.error("Please check your order details.", { id: validateToast });
-      return;
-    } else {
-      toast.success("Order details validated.", { id: validateToast });
-    }
+    // const validateToast = toast.loading("Validating order details...");
+    // const validEntries = await validateAllForms();
+    // if (!validEntries) {
+    //   toast.error("Please check your order details.", { id: validateToast });
+    //   return;
+    // } else {
+    //   toast.success("Order details validated.", { id: validateToast });
+    // }
 
+    try {
+      const response = await fetch("/api/checkout_sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handlePlaceOrder = async () => {
     const toastPlaceOrder = toast.loading("Placing order...");
     const updatedOrder = {
       ...order,
@@ -211,8 +232,6 @@ export default function Checkout() {
     }
 
     toast.success("Order placed successfully!", { id: toastPlaceOrder });
-    // console.log(data.message);
-    // handleSuccessPlaceOrder();
   };
 
   return (
@@ -270,6 +289,8 @@ export default function Checkout() {
                 onFinish={handleFinishSubmit}
                 totalAmount={getTotalAmount()}
               />
+              {/* <EmbeddedCheckoutButton /> */}
+              <PaymentButton />
             </FormWrapper>
           </LayoutGroup>
         </div>

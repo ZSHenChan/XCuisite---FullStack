@@ -35,7 +35,7 @@ goog.exportSymbol('proto.productsService.ProductsResponse', null, global);
  * @constructor
  */
 proto.productsService.ProductsRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.productsService.ProductsRequest.repeatedFields_, null);
 };
 goog.inherits(proto.productsService.ProductsRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -88,6 +88,13 @@ if (goog.DEBUG && !COMPILED) {
   proto.productsService.Product.displayName = 'proto.productsService.Product';
 }
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.productsService.ProductsRequest.repeatedFields_ = [2];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -119,7 +126,8 @@ proto.productsService.ProductsRequest.prototype.toObject = function(opt_includeI
  */
 proto.productsService.ProductsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-flavour: jspb.Message.getFieldWithDefault(msg, 1, "")
+flavour: jspb.Message.getFieldWithDefault(msg, 1, ""),
+idList: (f = jspb.Message.getRepeatedField(msg, 2)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -160,6 +168,12 @@ proto.productsService.ProductsRequest.deserializeBinaryFromReader = function(msg
       var value = /** @type {string} */ (reader.readString());
       msg.setFlavour(value);
       break;
+    case 2:
+      var values = /** @type {!Array<number>} */ (reader.isDelimited() ? reader.readPackedInt32() : [reader.readInt32()]);
+      for (var i = 0; i < values.length; i++) {
+        msg.addId(values[i]);
+      }
+      break;
     default:
       reader.skipField();
       break;
@@ -196,6 +210,13 @@ proto.productsService.ProductsRequest.serializeBinaryToWriter = function(message
       f
     );
   }
+  f = message.getIdList();
+  if (f.length > 0) {
+    writer.writePackedInt32(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -214,6 +235,43 @@ proto.productsService.ProductsRequest.prototype.getFlavour = function() {
  */
 proto.productsService.ProductsRequest.prototype.setFlavour = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * repeated int32 id = 2;
+ * @return {!Array<number>}
+ */
+proto.productsService.ProductsRequest.prototype.getIdList = function() {
+  return /** @type {!Array<number>} */ (jspb.Message.getRepeatedField(this, 2));
+};
+
+
+/**
+ * @param {!Array<number>} value
+ * @return {!proto.productsService.ProductsRequest} returns this
+ */
+proto.productsService.ProductsRequest.prototype.setIdList = function(value) {
+  return jspb.Message.setField(this, 2, value || []);
+};
+
+
+/**
+ * @param {number} value
+ * @param {number=} opt_index
+ * @return {!proto.productsService.ProductsRequest} returns this
+ */
+proto.productsService.ProductsRequest.prototype.addId = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 2, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.productsService.ProductsRequest} returns this
+ */
+proto.productsService.ProductsRequest.prototype.clearIdList = function() {
+  return this.setIdList([]);
 };
 
 

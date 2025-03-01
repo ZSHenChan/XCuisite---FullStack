@@ -10,6 +10,7 @@ service GetProductsService {
 
 message ProductsRequest {
   string flavour = 1;
+  repeated int32 id = 2;
 }
 
 message ProductsResponse {

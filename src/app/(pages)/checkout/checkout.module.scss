@@ -44,3 +44,10 @@
     margin-bottom: 3rem;
   }
 }
+
+.dialog {
+  place-self: center;
+  position: fixed;
+  height: 90dvh;
+  width: 80dvw;
+}
