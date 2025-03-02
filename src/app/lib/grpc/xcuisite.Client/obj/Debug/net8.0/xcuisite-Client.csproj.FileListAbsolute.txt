@@ -1,4 +1,0 @@
-/Users/user/Desktop/CS/excuisite-next/src/app/lib/grpc/xcuisite.Client/obj/Debug/net8.0/xcuisite-Client.GeneratedMSBuildEditorConfig.editorconfig
-/Users/user/Desktop/CS/excuisite-next/src/app/lib/grpc/xcuisite.Client/obj/Debug/net8.0/xcuisite-Client.AssemblyInfoInputs.cache
-/Users/user/Desktop/CS/excuisite-next/src/app/lib/grpc/xcuisite.Client/obj/Debug/net8.0/xcuisite-Client.AssemblyInfo.cs
-/Users/user/Desktop/CS/excuisite-next/src/app/lib/grpc/xcuisite.Client/obj/Debug/net8.0/xcuisite-Client.csproj.CoreCompileInputs.cache

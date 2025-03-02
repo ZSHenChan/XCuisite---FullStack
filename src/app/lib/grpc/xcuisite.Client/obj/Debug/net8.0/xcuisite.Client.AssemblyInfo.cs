@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("xcuisite.Client")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91046ce92dfb8bc8d548ebb3ff9fbb70445ec2ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a5f0f0511d327e85f8c12c3d51cd1ec5a418933")]
 [assembly: System.Reflection.AssemblyProductAttribute("xcuisite.Client")]
 [assembly: System.Reflection.AssemblyTitleAttribute("xcuisite.Client")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
