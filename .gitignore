@@ -43,5 +43,5 @@ next-env.d.ts
 .fake
 
 # dotnet
-obj
-bin
+**/obj/
+**/bin/
