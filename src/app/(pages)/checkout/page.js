@@ -8,13 +8,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useAuth0, useAuthToken } from "@auth0/auth0-react";
 import { CartContext } from "@/context/CartContext";
+import { setLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
 
 import { AnimatePresence } from "motion/react";
 import { LayoutGroup } from "framer-motion";
 import toast from "react-hot-toast";
-
-import { EmbeddedCheckoutButton } from "./embeddedCheckoutButton";
-import { PaymentButton } from "./paymentButton";
 
 import { SpinnerFull } from "@/components/Feedback/Spinner";
 import SubheadingPage from "@/components/Headings/SubheadingPage";
@@ -31,33 +29,11 @@ import SectionProducts from "@/(pages)/bag/SectionProducts";
 import SectionSummary from "@/(pages)/bag/SectionSummary";
 import FormWrapper from "@/components/Wrappers/FormWrapper";
 
-// const FormStringInput = ({
-//   label,
-//   type,
-//   ref,
-//   placeholder,
-//   required,
-//   className,
-// }) => {
-//   return (
-//     <div className={styles.formGroup}>
-//       <label htmlFor={label}>
-//         {label.charAt(0).toUpperCase() + label.slice(1)}
-//       </label>
-//       {errors.label && <span className={styles.formError}>{errors.label}</span>}
-//       <input
-//         type={type}
-//         id={label}
-//         name={label}
-//         placeholder={placeholder}
-//         required={required}
-//         ref={ref}
-//       />
-//     </div>
-//   );
-// };
+import { env } from "@/data/env/client";
+import { getStripe } from "@/lib/stripe/getStripe";
 
 export default function Checkout() {
+  const DEBUG_FORM = false;
   const router = useRouter();
 
   const {
@@ -70,55 +46,92 @@ export default function Checkout() {
     getVoucherDiscountAmount,
     getDiscountVouchers,
     emptyCart,
+    loadingCart,
   } = useContext(CartContext);
 
   const guestCheckoutState = getGuestCheckoutState();
   const { isAuthenticated, isLoading } = useAuth0();
 
-  if (isLoading) {
-    return <SpinnerFull />;
-  }
-
   //* Payment
   const searchParams = useSearchParams();
 
   const search = searchParams.get("canceled");
+  const sessionId = searchParams.get("session_id");
 
   const [showAddressForm, setShowAddressForm] = useState(true);
   const [animateAddressForm, setAnimateAddressForm] = useState(true);
 
-  const deliveryOptionRef = useRef(null);
+  const collectOptionRef = useRef(null);
   const addressRef = useRef(null);
   const shippingRef = useRef(null);
   const bagRef = useRef(null);
   const detailsRef = useRef(null);
   const submitRef = useRef(null);
 
-  const [order, setOrder] = useState({
-    userId: "user123",
-    guest: guestCheckoutState,
-    cartItems: getCartItems(),
-    discounts: getDiscountVouchers(),
-    taxAmount: getTaxAmount(),
-    shippingAmount: getShippingAmount(),
-    totalAmount: getTotalAmount(),
-    token: null,
-  });
+  const handleSuccessPlaceOrder = () => {
+    toast.success(
+      "Placed order successful! Redirecting to order confirmation..."
+    );
+    setLocalStorageItem("order", null);
+    setTimeout(() => {
+      router.push("/checkout/success");
+    }, 2000);
+    emptyCart();
+  };
 
-  // // Redirect user if not authenticated or no items in cart
-  // useEffect(() => {
-  //   // console.log("Guest Checkout State:", guestCheckoutState);
-  //   // console.log("Is Authenticated:", isAuthenticated);
+  const handlePlaceOrder = async () => {
+    toast.success("Payment successful!");
+    const toastPlaceOrder = toast.loading("Placing order...");
+    const updatedOrder = getLocalStorageItem("order");
 
-  //   if (!guestCheckoutState && !isAuthenticated) {
-  //     router.push("/checkout/login");
-  //     return;
-  //   }
-  //   if (getCartItems().length === 0) {
-  //     toast("Oops! Your cart is empty. Redirecting to offers page...");
-  //     router.push("/offers");
-  //   }
-  // }, [guestCheckoutState, isAuthenticated, router, getCartItems]);
+    const [data, err] = await ApiPlaceOrder(updatedOrder);
+
+    if (err) {
+      toast.error(
+        "Unable to place order. Please contact our customer service.",
+        {
+          id: toastPlaceOrder,
+        }
+      );
+      return;
+    }
+
+    handleSuccessPlaceOrder();
+  };
+
+  useEffect(() => {
+    const checkParams = async () => {
+      if (search) {
+        toast.error("Payment cancelled. Please try again.");
+      }
+      if (sessionId) {
+        if (sessionId === getLocalStorageItem("checkoutSessionId")) {
+          setLocalStorageItem("checkoutSessionId", null);
+          await handlePlaceOrder();
+        }
+      }
+    };
+
+    checkParams();
+
+    // console.log("Guest Checkout State:", guestCheckoutState);
+    // console.log("Is Authenticated:", isAuthenticated);
+    if (!loadingCart && !guestCheckoutState && !isAuthenticated) {
+      router.push("/checkout/login");
+      return;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (getCartItems().length === 0 && !loadingCart) {
+      toast("Oops! Your cart is empty. Redirecting to offers page...");
+      router.push("/offers");
+    }
+  }, [getCartItems()]);
+
+  if (isLoading || loadingCart) {
+    return <SpinnerFull />;
+  }
 
   const handleSelectPickup = () => {
     setAnimateAddressForm(false);
@@ -142,24 +155,24 @@ export default function Checkout() {
   };
 
   const handleFinishAddress = (data) => {
-    // console.log(data);
+    if (DEBUG_FORM) console.log(data);
     shippingRef.current.scrollIntoView();
   };
 
   const handleFinishShipping = (data) => {
-    // console.log(data);
+    if (DEBUG_FORM) console.log(data);
     bagRef.current.scrollIntoView();
   };
 
   const handleFinishBag = (data) => {
-    // console.log(data);
+    if (DEBUG_FORM) console.log(data);
     detailsRef.current.scrollIntoView({
       behavior: "smooth",
     });
   };
 
   const handleFinishDetails = (data) => {
-    // console.log(data);
+    if (DEBUG_FORM) console.log(data);
 
     submitRef.current.scrollIntoView({
       behavior: "smooth",
@@ -167,71 +180,132 @@ export default function Checkout() {
   };
 
   const validateAllForms = async () => {
-    const deliveryOptionData =
-      await deliveryOptionRef.current.extractAndValidateData();
-    const addressData = await addressRef.current?.extractAndValidateData();
-    const shippingData = await shippingRef.current?.extractAndValidateData();
+    const collectOptionData =
+      await collectOptionRef.current.extractAndValidateData();
+    const addressData =
+      collectOptionData.data?.deliveryOption == "delivery"
+        ? await addressRef.current.extractAndValidateData()
+        : null;
+    if (DEBUG_FORM) console.log(`Address data: ${addressData}`);
+    const shippingData =
+      collectOptionData.data?.deliveryOption == "delivery"
+        ? await shippingRef.current.extractAndValidateData()
+        : null;
+    if (DEBUG_FORM) console.log(`Shipping data: ${shippingData}`);
     const bagData = await bagRef.current.extractAndValidateData();
     const detailsData = await detailsRef.current.extractAndValidateData();
 
-    if (!deliveryOptionData.isValid) return false;
-    if (!bagData.isValid) return false;
-    if (!detailsData.isValid) return false;
-    if (deliveryOptionData.data.deliveryOption == "delivery") {
-      if (!addressData.isValid) return false;
-      if (!shippingData.isValid) return false;
+    if (!collectOptionData.isValid)
+      return { message: "Invalid Delivery Option.", valid: false };
+    if (!bagData.isValid)
+      return { message: "Invalid Bag Option.", valid: false };
+    if (!detailsData.isValid)
+      return { message: "Invalid Details.", valid: false };
+    if (collectOptionData.data.deliveryOption == "delivery") {
+      if (!addressData.isValid)
+        return { message: "Invalid Address.", valid: false };
+      if (!shippingData.isValid)
+        return { message: "Invalid Shipping Details.", valid: false };
     }
-    return true;
-  };
 
-  const handleSuccessPlaceOrder = () => {
-    router.push("/checkout-success");
-    emptyCart();
+    return { message: "Order details validated.", valid: true };
   };
 
   const handleFinishSubmit = async () => {
-    // const validateToast = toast.loading("Validating order details...");
-    // const validEntries = await validateAllForms();
-    // if (!validEntries) {
-    //   toast.error("Please check your order details.", { id: validateToast });
-    //   return;
-    // } else {
-    //   toast.success("Order details validated.", { id: validateToast });
-    // }
+    const validateToast = toast.loading("Validating order details...");
+    const validateState = await validateAllForms();
+    if (!validateState.valid) {
+      toast.error(`${validateState.message}`, { id: validateToast });
+      return;
+    } else {
+      toast.success(validateState.message, { id: validateToast });
+    }
+
+    createOrderRequest();
+    await handlePayment();
+  };
+
+  const handlePayment = async () => {
+    const checkoutItems = getCartItems().map((item) => ({
+      Price: item.priceId,
+      Quantity: item.quantity,
+    }));
+    console.log(checkoutItems);
 
     try {
-      const response = await fetch("/api/checkout_sessions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await fetch(
+        `${env.NEXT_PUBLIC_BACKEND_URL}/api/create-checkout-session`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(checkoutItems),
+        }
+      );
+
+      const checkoutSession = await response.json();
+      if (!response.ok) {
+        console.error(checkoutSession || "Error creating checkout session.");
+      }
+
+      setLocalStorageItem("checkoutSessionId", checkoutSession.id);
+
+      const stripe = await getStripe();
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: checkoutSession.id,
       });
-    } catch (err) {
-      console.error(err);
+
+      if (error) {
+        console.error("Stripe error:", error);
+        toast.error("Stripe error. Please try again.");
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      toast.error("Network error. Please try again.");
     }
   };
 
-  const handlePlaceOrder = async () => {
-    const toastPlaceOrder = toast.loading("Placing order...");
-    const updatedOrder = {
-      ...order,
-      address: addressRef.current?.extractAndValidateData().data,
-      shippingInfo: shippingRef.current?.extractAndValidateData().data,
-      bag: bagRef.current.extractAndValidateData().data,
-      details: detailsRef.current.extractAndValidateData().data,
-      orderNotes: detailsRef.current.extractAndValidateData().data.orderNotes,
+  const createOrderRequest = async () => {
+    const collectOptionData =
+      await collectOptionRef.current.extractAndValidateData();
+    const addressData =
+      collectOptionData.data.deliveryOption === "delivery"
+        ? await addressRef.current.extractAndValidateData()
+        : null;
+    const shippingData =
+      collectOptionData.data.deliveryOption === "delivery"
+        ? await shippingRef.current.extractAndValidateData()
+        : null;
+    const bagData = await bagRef.current.extractAndValidateData();
+    const detailsData = await detailsRef.current.extractAndValidateData();
+    const details = {
+      ...detailsData.data,
+      rating: detailsData.data.rating.toString(),
     };
 
-    const [data, err] = await ApiPlaceOrder(updatedOrder);
+    const items = getCartItems().map((item) => ({
+      ProductId: item.id.toString(),
+      Quantity: item.quantity.toString(),
+    }));
 
-    if (err) {
-      toast.error("Unable to place order. Please try again later.", {
-        id: toastPlaceOrder,
-      });
-      return;
-    }
+    const order = {
+      userId: "user123",
+      guest: guestCheckoutState,
+      items: items,
+      discounts: getDiscountVouchers(),
+      tax: getTaxAmount().toString(),
+      shippingAmount: getShippingAmount().toString(),
+      totalAmount: getTotalAmount().toString(),
+      collectOption: collectOptionData.data,
+      address: addressData?.data,
+      shippingInfo: shippingData?.data,
+      bag: bagData.data,
+      details: detailsData.data,
+      token: null,
+    };
 
-    toast.success("Order placed successfully!", { id: toastPlaceOrder });
+    setLocalStorageItem("order", order);
   };
 
   return (
@@ -250,7 +324,7 @@ export default function Checkout() {
           <LayoutGroup>
             <FormWrapper>
               <FormCollectOption
-                ref={deliveryOptionRef}
+                ref={collectOptionRef}
                 onPickUpSelect={handleSelectPickup}
                 onDeliverySelect={handleSelectDelivery}
               />
@@ -288,9 +362,8 @@ export default function Checkout() {
                 submitRef={submitRef}
                 onFinish={handleFinishSubmit}
                 totalAmount={getTotalAmount()}
-              />
-              {/* <EmbeddedCheckoutButton /> */}
-              <PaymentButton />
+                onClick={handlePlaceOrder}
+              ></FormSubmit>
             </FormWrapper>
           </LayoutGroup>
         </div>

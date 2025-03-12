@@ -3,16 +3,20 @@
 import styles from "./checkout.module.scss";
 
 import { loadStripe } from "@stripe/stripe-js";
+import { env } from "@/data/env/client";
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
 } from "@stripe/react-stripe-js";
 import { useCallback, useRef, useState } from "react";
+import { getCartItems } from "@/context/CartContext";
 
 export function EmbeddedCheckoutButton() {
-  const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-  );
+  const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+  const checkoutItems = getCartItems().map((item) => {
+    priceId: item.priceId;
+    quantity: item.quantity;
+  });
   const [showCheckout, setShowCheckout] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const modalRef = useRef(null);
@@ -24,9 +28,7 @@ export function EmbeddedCheckoutButton() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          priceId: "price_1Qvde44CcIdSwh5u0fcvcdao",
-        }),
+        body: JSON.stringify(checkoutItems),
       });
 
       const responseBody = (await res).json();

@@ -1,0 +1,14 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.paymentButtonForm {
+  padding-top: $spacing-lg;
+  width: 100%;
+  display: grid;
+  justify-content: center;
+  overflow: hidden;
+}
+
+// .paymentButton {
+//   padding-left: 10rem;
+// }

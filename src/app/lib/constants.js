@@ -1,5 +1,6 @@
 export const SHIPPING_AMOUNT = 2.0;
 export const MIN_NO_SHIP_FEE = 5.0;
+export const HUNGRY_SHIP_FEE = 2.0;
 export const STORES = [
   "Jurong East",
   "Orchard",
@@ -7,7 +8,7 @@ export const STORES = [
   "Woodlands",
   "Yishun",
 ];
-export const SHIPPING_METHODS = ["standard", "express"];
+export const SHIPPING_METHODS = ["standard", "hungry"];
 export const BAG_OPTIONS = ["classic", "star", "circle", "cookies"];
 
 export const FOOTER_COLUMNS = {

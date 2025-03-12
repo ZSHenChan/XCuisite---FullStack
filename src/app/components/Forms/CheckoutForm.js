@@ -3,8 +3,12 @@
 import styles from "./forms.module.scss";
 
 import { getCurrency } from "@/utils/currency";
-import { STORES, SHIPPING_METHODS, BAG_OPTIONS } from "@/lib/constants";
-
+import {
+  STORES,
+  SHIPPING_METHODS,
+  BAG_OPTIONS,
+  HUNGRY_SHIP_FEE,
+} from "@/lib/constants";
 import Form from "next/form";
 import { object, string, number, date } from "yup";
 import ButtonSecondary from "../Buttons/ButtonSecondary";
@@ -330,7 +334,7 @@ export const FormShipping = forwardRef(
 
     const formRef = useRef(null);
 
-    const [shippingMethod, setShippingMethod] = useState("standard");
+    const [shippingMethod, setShippingMethod] = useState(SHIPPING_METHODS[0]);
     const fullNameRef = useRef(null);
     const phoneRef = useRef(null);
     const emailRef = useRef(null);
@@ -419,7 +423,26 @@ export const FormShipping = forwardRef(
         />
 
         <div className={styles.radioGroup}>
-          <div className={`${styles.formGroup} ${styles["formGroup--radio"]}`}>
+          {SHIPPING_METHODS.map((method) => (
+            <div
+              className={`${styles.formGroup} ${styles["formGroup--radio"]}`}
+              key={method}
+            >
+              <input
+                type="radio"
+                id={method}
+                name="shippingMethod"
+                value={method}
+                checked={shippingMethod === method}
+                onChange={handleOptionChange}
+                required
+              />
+              <label htmlFor={method} className={styles["radio-label"]}>
+                {method.charAt().toUpperCase() + method.slice(1)}
+              </label>
+            </div>
+          ))}
+          {/* <div className={`${styles.formGroup} ${styles["formGroup--radio"]}`}>
             <input
               type="radio"
               id="standard"
@@ -446,9 +469,16 @@ export const FormShipping = forwardRef(
             <label htmlFor="express" className={styles["radio-label"]}>
               Express
             </label>
-          </div>
+          </div> */}
         </div>
-        <p>Express shipping will cost extra {getCurrency()}5</p>
+        <p>
+          Express shipping will cost extra{" "}
+          <strong>
+            {getCurrency()}
+            {HUNGRY_SHIP_FEE}
+          </strong>
+          .
+        </p>
         <ButtonSecondary type="submit" className={styles.submitButton}>
           Continue
         </ButtonSecondary>
@@ -620,28 +650,29 @@ export const FormDetails = forwardRef(({ onFinish }, ref) => {
       />
 
       <ButtonSecondary type="submit" className={styles.submitButton}>
-        Submit
+        Continue
       </ButtonSecondary>
     </form>
   );
 });
 
-export function FormSubmit({ submitRef, onFinish, totalAmount }) {
+export function FormSubmit({ submitRef, onFinish, totalAmount, children }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onFinish();
   };
 
   return (
-    <Form className={` ${styles.form}`} ref={submitRef} onSubmit={handleSubmit}>
+    <div className={` ${styles.form}`} ref={submitRef}>
       <h3 className={styles["form-heading"]}>Last Step - Double Confirm!</h3>
       <p>
         You are about to pay {getCurrency()}
         {totalAmount}. Double check your order details before payment.
       </p>
-      <ButtonSecondary type="submit" className={styles.submitButton}>
-        Proceed to Payment
+      <ButtonSecondary onClick={handleSubmit} className={styles.submitButton}>
+        Check My Details
       </ButtonSecondary>
-    </Form>
+      {children}
+    </div>
   );
 }

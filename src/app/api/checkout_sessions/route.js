@@ -39,6 +39,7 @@ import { headers } from "next/headers";
 import { stripe } from "@/lib/stripe/stripe";
 
 export async function POST() {
+  console.log("post req received");
   try {
     const headersList = await headers();
     const origin = headersList.get("origin");
@@ -56,6 +57,7 @@ export async function POST() {
       success_url: `${origin}/checkout?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout?canceled=true`,
     });
+
     return NextResponse.redirect(session.url, 303);
   } catch (err) {
     return NextResponse.json(

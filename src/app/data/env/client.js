@@ -9,6 +9,7 @@ export const env = createEnv({
     NEXT_PUBLIC_AUTH0_AUDIENCE: z.string(),
     NEXT_PUBLIC_AUTH0_SCOPE: z.string(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+    NEXT_PUBLIC_BACKEND_URL: z.string(),
   },
   experimental__runtimeEnv: {
     NEXT_PUBLIC_AUTH0_DOMAIN: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
@@ -17,5 +18,6 @@ export const env = createEnv({
     NEXT_PUBLIC_AUTH0_SCOPE: process.env.NEXT_PUBLIC_AUTH0_SCOPE,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_BACKEND_URL: process.env.NEXT_PUBLIC_BACKEND_URL,
   },
 });

@@ -2,7 +2,12 @@
 
 import { createContext, useState, useEffect, useCallback } from "react";
 import { setLocalStorageItem, getLocalStorageItem } from "@/utils/localStorage";
-import { SHIPPING_AMOUNT, MIN_NO_SHIP_FEE } from "@/lib/constants";
+import {
+  SHIPPING_AMOUNT,
+  MIN_NO_SHIP_FEE,
+  SHIPPING_METHODS,
+  HUNGRY_SHIP_FEE,
+} from "@/lib/constants";
 
 // Create the CartContext
 export const CartContext = createContext(null);
@@ -15,11 +20,13 @@ const EMPTY_CART = {
 
 // * Export functions
 export function CartProvider({ children }) {
+  const [loadingCart, setLoadingCart] = useState(true);
   const [cartContext, setCartContext] = useState({
     pickUp: false,
     guestCheckout: false,
     cart: EMPTY_CART,
     voucher_discounts: [],
+    shippingMethod: "standard",
   });
 
   useEffect(() => {
@@ -30,11 +37,15 @@ export function CartProvider({ children }) {
         cart: localStorageCart,
       }));
     }
+    setLoadingCart(false);
+
+    const guestCheckout = getLocalStorageItem("guestCheckout");
+    updateGuestCheckoutState(guestCheckout);
   }, []);
 
   const getCart = useCallback(() => {
     return cartContext.cart;
-  }, [cartContext]);
+  }, [cartContext.cart]);
 
   const getCartQuantity = useCallback(() => {
     return cartContext.cart.totalQuantity;
@@ -42,7 +53,7 @@ export function CartProvider({ children }) {
 
   const getCartItems = useCallback(() => {
     return cartContext.cart.items;
-  }, [cartContext]);
+  }, [cartContext.cart.items]);
 
   const getGuestCheckoutState = useCallback(() => {
     return cartContext.guestCheckout;
@@ -51,6 +62,13 @@ export function CartProvider({ children }) {
   const getPickUp = useCallback(() => {
     return cartContext.pickUp;
   }, [cartContext.pickUp]);
+
+  const setShippingMethod = useCallback((method) => {
+    setCartContext((prevCart) => ({
+      ...prevCart,
+      shippingMethod: method,
+    }));
+  }, []);
 
   const setPickUp = useCallback((pickUp) => {
     setCartContext((prevCart) => ({
@@ -64,6 +82,7 @@ export function CartProvider({ children }) {
       ...prevCart,
       guestCheckout: state,
     }));
+    setLocalStorageItem("guestCheckout", state);
   }, []);
 
   const addToCart = useCallback((item, quantity) => {
@@ -162,11 +181,15 @@ export function CartProvider({ children }) {
   }, []);
 
   const getShippingAmount = useCallback(() => {
+    var subAmount;
     if (!getPickUp() && getSubtotalAmount() < MIN_NO_SHIP_FEE) {
-      return SHIPPING_AMOUNT;
+      subAmount = SHIPPING_AMOUNT;
+    } else {
+      subAmount = 0;
     }
-    return 0;
-  }, [getPickUp, getSubtotalAmount]);
+    return (subAmount +=
+      cartContext.shippingMethod === "hungry" ? HUNGRY_SHIP_FEE : 0);
+  }, [getPickUp, getSubtotalAmount, cartContext.shippingMethod]);
 
   const getTotalAmount = useCallback(() => {
     let subtotal = getSubtotalAmount();
@@ -196,11 +219,13 @@ export function CartProvider({ children }) {
         getVoucherDiscountAmount,
         getPickUp,
         setPickUp,
+        setShippingMethod,
         updateGuestCheckoutState,
         emptyCart,
         getTotalAmount,
         getSubtotalAmount,
         updateLocalStorage,
+        loadingCart,
       }}
     >
       {children}
