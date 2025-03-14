@@ -1,0 +1,25 @@
+@use "@/styles/variables" as *;
+
+.not-found-div {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 28rem;
+  width: 100%;
+}
+.wrapper {
+  padding: 5rem min(5dvw, 5rem);
+}
+
+.return-link {
+  color: $primary;
+}
+
+.heading {
+  font-size: min(calc(2dvw + 2rem), $font-lg);
+  margin-bottom: $spacing-md;
+}
+.sub-heading {
+  font-size: min(calc(2dvw + 0.5rem), $font-md);
+  margin-bottom: $spacing-xxl;
+}

@@ -68,7 +68,7 @@ export default function ProductsGrid() {
             updateModalProduct={handleUpdateModalProduct}
             onHideModal={handleCloseModal}
             onShowModal={() => handleSelectProduct(product)}
-            isSelected={modalProduct.id === product.id && modalHidden == false}
+            isSelected={modalProduct.id === product.id && !modalHidden}
           />
         ))}
       </ul>

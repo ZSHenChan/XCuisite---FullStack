@@ -24,8 +24,14 @@ export function Card({
   const inverted = useInvertedBorderRadius(20);
 
   const handleShowModal = () => {
-    updateModalProduct(product);
-    onShowModal();
+    if (!isSelected) {
+      updateModalProduct(product);
+      onShowModal();
+    }
+  };
+
+  const handleHideModal = () => {
+    onHideModal();
   };
 
   return (
@@ -45,11 +51,12 @@ export function Card({
             id={product.id}
             alt={product.imgAlt}
             isSelected={isSelected}
+            onClick={onHideModal}
           ></Image>
           <CardBody
             isSelected={isSelected}
             product={product}
-            onHideModal={onHideModal}
+            onHideModal={handleHideModal}
           />
         </motion.div>
       </div>

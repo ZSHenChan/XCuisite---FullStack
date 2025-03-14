@@ -22,10 +22,10 @@ export function CardBody({ isSelected, product, onHideModal }) {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = (e) => {
-    onHideModal();
     e.preventDefault();
     addToCart(product, quantity);
     setQuantity(1);
+    onHideModal();
   };
 
   const handleInputChange = (event) => {

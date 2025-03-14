@@ -59,3 +59,7 @@ export const FOOTER_COLUMNS = {
     { text: "Indonesia", link: "/locations/in" },
   ],
 };
+
+// TIMING
+export const EMPTY_CART_REDIRECT_TIME = 1000;
+export const FINISH_PAYMENT_REDIRECT_TIME = 2000;

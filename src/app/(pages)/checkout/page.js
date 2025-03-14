@@ -30,7 +30,12 @@ import SectionSummary from "@/(pages)/bag/SectionSummary";
 import FormWrapper from "@/components/Wrappers/FormWrapper";
 
 import { env } from "@/data/env/client";
-import { getStripe } from "@/lib/stripe/getStripe";
+import {
+  EMPTY_CART_REDIRECT_TIME,
+  FINISH_PAYMENT_REDIRECT_TIME,
+} from "@/lib/constants";
+
+import { handlePayment } from "@/lib/stripe/handlePayment";
 
 export default function Checkout() {
   const DEBUG_FORM = false;
@@ -73,9 +78,10 @@ export default function Checkout() {
       "Placed order successful! Redirecting to order confirmation..."
     );
     setLocalStorageItem("order", null);
+    setLocalStorageItem("guestCheckout", null);
     setTimeout(() => {
       router.push("/checkout/success");
-    }, 2000);
+    }, FINISH_PAYMENT_REDIRECT_TIME);
     emptyCart();
   };
 
@@ -125,7 +131,9 @@ export default function Checkout() {
   useEffect(() => {
     if (getCartItems().length === 0 && !loadingCart) {
       toast("Oops! Your cart is empty. Redirecting to offers page...");
-      router.push("/offers");
+      setTimeout(() => {
+        router.push("/offers");
+      }, EMPTY_CART_REDIRECT_TIME);
     }
   }, [getCartItems()]);
 
@@ -222,48 +230,11 @@ export default function Checkout() {
     }
 
     createOrderRequest();
-    await handlePayment();
-  };
-
-  const handlePayment = async () => {
     const checkoutItems = getCartItems().map((item) => ({
       Price: item.priceId,
       Quantity: item.quantity,
     }));
-    console.log(checkoutItems);
-
-    try {
-      const response = await fetch(
-        `${env.NEXT_PUBLIC_BACKEND_URL}/api/create-checkout-session`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(checkoutItems),
-        }
-      );
-
-      const checkoutSession = await response.json();
-      if (!response.ok) {
-        console.error(checkoutSession || "Error creating checkout session.");
-      }
-
-      setLocalStorageItem("checkoutSessionId", checkoutSession.id);
-
-      const stripe = await getStripe();
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: checkoutSession.id,
-      });
-
-      if (error) {
-        console.error("Stripe error:", error);
-        toast.error("Stripe error. Please try again.");
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-      toast.error("Network error. Please try again.");
-    }
+    await handlePayment(checkoutItems);
   };
 
   const createOrderRequest = async () => {

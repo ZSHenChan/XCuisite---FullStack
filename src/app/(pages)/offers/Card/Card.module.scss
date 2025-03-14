@@ -106,7 +106,7 @@
   place-self: center;
   width: min(90dvw, 55rem);
   // height: 40rem;
-  height: min(90dvh, 50rem);
+  height: min(75dvh, 50rem);
   // height: min(90dvh, 37rem);
   top: min(5rem, 10dvh);
   left: min(10dvw, 10rem);
@@ -117,7 +117,7 @@
   margin: 40px 0;
 
   @include respond(tab-port) {
-    height: max(90dvh, 35rem);
+    height: 75dvh;
   }
 }
 
